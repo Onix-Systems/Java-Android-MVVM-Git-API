@@ -1,8 +1,8 @@
 package com.android.gitapi.presentation;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.gitapi.R;
 
