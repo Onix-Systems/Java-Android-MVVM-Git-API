@@ -1,4 +1,4 @@
-package com.android.gitapi.domain;
+package com.android.gitapi.domain.usecase;
 
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;

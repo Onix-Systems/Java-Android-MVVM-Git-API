@@ -14,19 +14,19 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.android.gitapi.R;
-
 public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
 
     protected T binding;
     private NavController navController;
 
+    private void findNavController(Fragment fragment) {
+        navController = NavHostFragment.findNavController(fragment);
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
-        NavHostFragment navHostFragment =
-                (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
-        navController = navHostFragment.getNavController();
+        findNavController(this);
         return binding.getRoot();
     }
 
