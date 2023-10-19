@@ -1,8 +1,10 @@
-package com.android.gitapi;
+package com.android.gitapi.presentation;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.android.gitapi.R;
 
 public class MainActivity extends AppCompatActivity {
 
