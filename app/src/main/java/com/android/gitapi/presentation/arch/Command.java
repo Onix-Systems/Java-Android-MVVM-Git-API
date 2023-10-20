@@ -7,7 +7,7 @@ public abstract class Command {
     }
 
     public static final class Back extends Command {
-        private Back() {}
+        public Back() {}
 
         public static final Back INSTANCE = new Back();
     }

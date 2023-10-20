@@ -23,7 +23,7 @@ public class PagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return new RepositoryListFragment();
+                return new FirstTabFragment();
             case 1:
                 return new RepositoryListFragment();
         }

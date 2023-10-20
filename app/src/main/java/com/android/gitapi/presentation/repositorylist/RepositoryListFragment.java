@@ -16,17 +16,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.gitapi.App;
 import com.android.gitapi.R;
 import com.android.gitapi.data.model.TimePeriod;
+import com.android.gitapi.data.repository.CurrentProjectRepositoryImpl;
 import com.android.gitapi.databinding.FragmentRepositoryListBinding;
 import com.android.gitapi.domain.model.ProjectItemModel;
 import com.android.gitapi.domain.model.ProjectRequestModel;
 import com.android.gitapi.domain.repository.ProjectsListRepository;
 import com.android.gitapi.presentation.adapter.RepositoryAdapter;
 import com.android.gitapi.presentation.arch.BaseFragment;
-import com.android.gitapi.presentation.listeners.FavouriteClickListener;
+import com.android.gitapi.presentation.arch.Command;
+import com.android.gitapi.presentation.tablayout.TabLayoutRepository;
 
 import javax.inject.Inject;
 
-public class RepositoryListFragment extends BaseFragment<FragmentRepositoryListBinding> implements FavouriteClickListener {
+public class RepositoryListFragment extends BaseFragment<FragmentRepositoryListBinding> implements RepositoryItemPresenter {
 
     @Inject
     ViewModelFactory viewModelFactory;
@@ -52,6 +54,12 @@ public class RepositoryListFragment extends BaseFragment<FragmentRepositoryListB
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         App.getAppComponent().inject(this);
         return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        TabLayoutRepository.getInstance().setIsShowTabLayoutEvent(true);
     }
 
     private void initRecycle() {
@@ -131,7 +139,6 @@ public class RepositoryListFragment extends BaseFragment<FragmentRepositoryListB
     @Override
     protected void setObservers() {
         viewModel.getRepositoryListLiveData().observe(getViewLifecycleOwner(), items -> {
-            items.get(0).isFavourite();
             adapter.submitList(items);
             adapter.notifyDataSetChanged();
         });
@@ -140,5 +147,11 @@ public class RepositoryListFragment extends BaseFragment<FragmentRepositoryListB
     @Override
     public void onFavouriteClick(ProjectItemModel projectItemModel) {
         viewModel.onFavouriteClick(projectItemModel);
+    }
+
+    @Override
+    public void onItemClick(ProjectItemModel projectItemModel) {
+        CurrentProjectRepositoryImpl.getInstance().setProject(projectItemModel);
+        navigate(new Command.Route(RepositoryListFragmentDirections.actionRepositoryListFragmentToDetailsFragment()));
     }
 }

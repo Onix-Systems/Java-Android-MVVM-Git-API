@@ -29,5 +29,6 @@ public class RepositoryModule {
     public DataBaseRepository provideDataBaseRepository(RepositoriesDao repositoriesDao) {
         return new DataBaseRepositoryImpl(repositoriesDao);
     }
+
 }
 

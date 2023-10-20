@@ -8,15 +8,15 @@ import androidx.recyclerview.widget.ListAdapter;
 
 import com.android.gitapi.databinding.RepositoryItemBinding;
 import com.android.gitapi.domain.model.ProjectItemModel;
-import com.android.gitapi.presentation.listeners.FavouriteClickListener;
+import com.android.gitapi.presentation.repositorylist.RepositoryItemPresenter;
 
 public class RepositoryAdapter extends ListAdapter<ProjectItemModel, RepositoryViewHolder> {
 
-    private FavouriteClickListener clickListener;
+    private RepositoryItemPresenter presenter;
 
-    public RepositoryAdapter(FavouriteClickListener clickListener) {
+    public RepositoryAdapter(RepositoryItemPresenter presenter) {
         super(new RepositoryDiffCallback());
-        this.clickListener = clickListener;
+        this.presenter = presenter;
     }
 
     @NonNull
@@ -24,7 +24,7 @@ public class RepositoryAdapter extends ListAdapter<ProjectItemModel, RepositoryV
     public RepositoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         RepositoryItemBinding binding = RepositoryItemBinding.inflate(inflater, parent, false);
-        return new RepositoryViewHolder(binding, clickListener);
+        return new RepositoryViewHolder(binding, presenter);
     }
 
     @Override

@@ -1,8 +1,10 @@
 package com.android.gitapi.presentation.tablayout;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -24,9 +26,31 @@ public class TabsFragment extends BaseFragment<FragmentTabsBinding> {
         super.onViewCreated(view, savedInstanceState);
         PagerAdapter adapter = new PagerAdapter(requireActivity().getSupportFragmentManager(), getLifecycle());
         binding.viewPager.setAdapter(adapter);
-
         new TabLayoutMediator(binding.tabLayout, binding.viewPager, this::setText).attach();
+        OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+            }
+        };
 
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), onBackPressedCallback);
+        TabLayoutRepository.getInstance().getIsShowTabLayoutEvent().observe(getViewLifecycleOwner(), value -> {
+            if (value) {
+                showTabLayout();
+                binding.viewPager.setUserInputEnabled(true);
+            } else {
+                hideTabLayout();
+                binding.viewPager.setUserInputEnabled(false);
+            }
+        });
+    }
+
+    private void hideTabLayout() {
+        binding.tabLayout.setVisibility(View.GONE);
+    }
+
+    private void showTabLayout() {
+        binding.tabLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
