@@ -8,12 +8,17 @@
         <variable
             name="model"
             type="com.android.gitapi.domain.model.ProjectItemModel" />
+
+        <variable
+            name="controller"
+            type="com.android.gitapi.presentation.listeners.RepositoryItemController" />
     </data>
 
     <LinearLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="@{()->controller.onItemClick()}"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
@@ -29,6 +34,7 @@
                 android:id="@+id/avatarImageView"
                 android:layout_width="@dimen/image_size"
                 android:layout_height="@dimen/image_size"
+                android:paddingStart="@dimen/padding_16"
                 app:shapeAppearanceOverlay="@style/roundedImageView"
                 tools:src="@tools:sample/avatars" />
 
@@ -95,6 +101,7 @@
                 android:layout_height="@dimen/favourite_button_size"
                 android:layout_gravity="center"
                 android:layout_marginEnd="@dimen/margin_5"
+                android:onClick="@{()->controller.onFavouriteClick()}"
                 android:background="@drawable/selector_favourite"
                 android:checkable="true"
                 app:layout_constraintEnd_toEndOf="parent"

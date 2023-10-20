@@ -4,6 +4,16 @@
     <string name="repositories">Repositories</string>
     <string name="favourites">Favourites</string>
     <string name="stars">stars</string>
+    <string name="github_page">GitHub Page</string>
+    <string name="creation_date">Creation Date</string>
+    <string name="forks">Forks</string>
+    <string name="language">Language</string>
+    <string name="stars_">Stars</string>
+    <string name="description">Description</string>
+    <string name="repository_name">Repository Name</string>
+    <string name="user_owner">User Owner</string>
+    <string name="error_when_opening_a_web_page">"error when opening a web page "</string>
+    <string name="repository_details">Repository details</string>
     <string-array name="timeframe">
         <item>Last day</item>
         <item>Last week</item>

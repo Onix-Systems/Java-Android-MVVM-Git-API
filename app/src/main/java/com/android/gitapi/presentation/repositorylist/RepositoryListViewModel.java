@@ -3,6 +3,7 @@ package com.android.gitapi.presentation.repositorylist;
 import android.annotation.SuppressLint;
 import android.util.Log;
 
+import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -30,6 +31,16 @@ public class RepositoryListViewModel extends ViewModel {
     GetFavouritesUseCase getFavouritesUseCase;
 
     List<RepositoryEntity> repositoryEntities;
+
+    private ObservableBoolean observableBoolean = new ObservableBoolean(false);
+
+    public ObservableBoolean getObservableBoolean() {
+        return observableBoolean;
+    }
+
+    public void setObservableBoolean(ObservableBoolean observableBoolean) {
+        this.observableBoolean = observableBoolean;
+    }
 
     private final MutableLiveData<List<ProjectItemModel>> repositoryListLiveData = new MutableLiveData<>();
     private int totalCount = 0;
@@ -82,6 +93,7 @@ public class RepositoryListViewModel extends ViewModel {
 
     @SuppressLint("CheckResult")
     public void fetchRepositoryList(ProjectRequestModel model) {
+        observableBoolean.set(true);
         getRepositoryListUseCase.execute(model)
                 .subscribe(
                         repositoryList -> {
@@ -100,6 +112,7 @@ public class RepositoryListViewModel extends ViewModel {
 
                                     if (e.getRepositoryName().equals(projectItemModel.getRepositoryName())) {
                                         ProjectItemModel newModel = repositoryList.getItems().get(i);
+                                        newModel.setFavourite(true);
                                         repositoryList.getItems().set(i, newModel);
                                     }
                                 }
@@ -108,10 +121,12 @@ public class RepositoryListViewModel extends ViewModel {
                             existingList.addAll(repositoryList.getItems());
                             repositoryListLiveData.setValue(existingList);
                             isLoading = false;
+                            observableBoolean.set(false);
                         },
                         error -> {
                             Log.e("apiError", Objects.requireNonNull(error.getMessage()));
                             isLoading = false;
+                            observableBoolean.set(false);
                         }
                 );
     }
@@ -147,6 +162,7 @@ public class RepositoryListViewModel extends ViewModel {
                     .subscribe(
                             () -> {
                                 repositoryEntities = getFavouritesUseCase.execute(null);
+                                Log.e("showInfo", repositoryEntities.toString());
                             },
                             error -> {
                                 Log.e("addError", Objects.requireNonNull(error.getMessage()));
