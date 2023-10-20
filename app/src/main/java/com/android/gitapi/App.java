@@ -6,7 +6,7 @@ import com.android.gitapi.presentation.di.AppComponent;
 import com.android.gitapi.presentation.di.DaggerAppComponent;
 
 public class App extends Application {
-    private AppComponent appComponent;
+    private static AppComponent appComponent;
 
     @Override
     public void onCreate() {
@@ -14,7 +14,7 @@ public class App extends Application {
         appComponent = DaggerAppComponent.builder().build();
     }
 
-    public AppComponent getAppComponent() {
+    public static AppComponent getAppComponent() {
         return appComponent;
     }
 }

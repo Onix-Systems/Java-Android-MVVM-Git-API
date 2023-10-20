@@ -20,11 +20,11 @@
         <Spinner
             android:id="@+id/timeframeSpinner"
             android:layout_width="match_parent"
-            android:backgroundTint="@color/light_silver"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spinner_margin_bottom"
+            android:backgroundTint="@color/light_silver"
             android:padding="@dimen/padding_8dp"
-            android:spinnerMode="dropdown"/>
+            android:spinnerMode="dropdown" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/repoRecyclerView"
@@ -35,7 +35,7 @@
             android:paddingTop="@dimen/padding_8dp"
             android:paddingBottom="@dimen/padding_8dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/repository_item"/>
+            tools:listitem="@layout/repository_item" />
 
     </LinearLayout>
 </layout>

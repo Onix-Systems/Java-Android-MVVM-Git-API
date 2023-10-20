@@ -9,7 +9,7 @@ public class RepositoryDiffCallback extends DiffUtil.ItemCallback<ProjectItemMod
 
     @Override
     public boolean areItemsTheSame(@NonNull ProjectItemModel oldItem, @NonNull ProjectItemModel newItem) {
-        return oldItem.hashCode() == newItem.hashCode();
+        return oldItem.getId() == newItem.getId();
     }
 
     @Override

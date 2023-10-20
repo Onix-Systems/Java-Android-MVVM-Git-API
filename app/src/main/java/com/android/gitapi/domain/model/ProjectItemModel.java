@@ -4,25 +4,35 @@ import java.util.Objects;
 
 public class ProjectItemModel {
     private long id;
-    private String userName;
+    private String ownerUser;
     private String description;
-    private float stars;
+    private String stars;
     private String avatarUrl;
+    private String repositoryName;
 
-    public ProjectItemModel(long id, String userName, String description, float stars, String avatarUrl) {
+    public ProjectItemModel(long id, String userName, String description, String stars, String avatarUrl, String repositoryName) {
         this.id = id;
-        this.userName = userName;
+        this.ownerUser = userName;
         this.description = description;
         this.stars = stars;
         this.avatarUrl = avatarUrl;
+        this.repositoryName = repositoryName;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getOwnerUser() {
+        return ownerUser;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public String getRepositoryName() {
+        return repositoryName;
+    }
+
+    public void setRepositoryName(String repositoryName) {
+        this.repositoryName = repositoryName;
+    }
+
+    public void setOwnerUser(String ownerUser) {
+        this.ownerUser = ownerUser;
     }
 
     public String getDescription() {
@@ -33,11 +43,11 @@ public class ProjectItemModel {
         this.description = description;
     }
 
-    public float getStars() {
+    public String getStars() {
         return stars;
     }
 
-    public void setStars(float stars) {
+    public void setStars(String stars) {
         this.stars = stars;
     }
 
@@ -61,12 +71,12 @@ public class ProjectItemModel {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ProjectItemModel that)) return false;
-        return Float.compare(that.stars, stars) == 0 && Objects.equals(userName, that.userName) && Objects.equals(description, that.description) && Objects.equals(avatarUrl, that.avatarUrl);
+        return id == that.id && Objects.equals(ownerUser, that.ownerUser) && Objects.equals(description, that.description) && Objects.equals(stars, that.stars) && Objects.equals(avatarUrl, that.avatarUrl) && Objects.equals(repositoryName, that.repositoryName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userName, description, stars, avatarUrl);
+        return Objects.hash(id, ownerUser, description, stars, avatarUrl, repositoryName);
     }
 }
 

@@ -4,22 +4,23 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.gitapi.App;
 import com.android.gitapi.R;
+import com.android.gitapi.data.model.TimePeriod;
 import com.android.gitapi.databinding.FragmentRepositoryListBinding;
-import com.android.gitapi.domain.model.ProjectItemModel;
+import com.android.gitapi.domain.model.ProjectRequestModel;
 import com.android.gitapi.domain.repository.ProjectsListRepository;
 import com.android.gitapi.presentation.adapter.RepositoryAdapter;
 import com.android.gitapi.presentation.arch.BaseFragment;
-
-import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -40,35 +41,81 @@ public class RepositoryListFragment extends BaseFragment<FragmentRepositoryListB
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this, viewModelFactory).get(RepositoryListViewModel.class);
         binding.setViewModel(viewModel);
+        viewModel.getRepositoryListLiveData().observe(getViewLifecycleOwner(), items -> {
+            adapter.submitList(items);
+            adapter.notifyDataSetChanged();
+        });
     }
 
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ((App) requireActivity().getApplication()).getAppComponent().inject(this);
+        App.getAppComponent().inject(this);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     private void initRecycle() {
         binding.repoRecyclerView.setAdapter(adapter);
         binding.repoRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        var list = new ArrayList<ProjectItemModel>();
-        list.add(new ProjectItemModel(1, "Username", "Some description text", 3.4f, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIC4VUtRM1OdB1qC2Ybg_cyjVaCWMZ_WLgYaZoTiZZIQ&s"));
-        list.add(new ProjectItemModel(1, "Username", "Some description text Some description text Some description text Some description text Some description text Some description text", 3.4f, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIC4VUtRM1OdB1qC2Ybg_cyjVaCWMZ_WLgYaZoTiZZIQ&s"));
-        list.add(new ProjectItemModel(1, "Username", "Some description text", 3.4f, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIC4VUtRM1OdB1qC2Ybg_cyjVaCWMZ_WLgYaZoTiZZIQ&s"));
-        list.add(new ProjectItemModel(1, "Username", "Some description text Some description text Some description text Some description text", 3.4f, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIC4VUtRM1OdB1qC2Ybg_cyjVaCWMZ_WLgYaZoTiZZIQ&s"));
-        adapter.submitList(list);
+
+        binding.repoRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                int visibleItemCount = layoutManager.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
+                int firstVisibleItemPosition;
+
+                if (layoutManager instanceof LinearLayoutManager) {
+                    firstVisibleItemPosition = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
+                } else {
+                    firstVisibleItemPosition = 0;
+                }
+
+                if (!viewModel.isLoading && (totalItemCount - visibleItemCount) <= (firstVisibleItemPosition)) {
+                    viewModel.loadNextPage();
+                }
+            }
+        });
     }
+
 
     private void setupSpinner() {
         String[] timeFrameItems = getResources().getStringArray(R.array.timeframe);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_item, timeFrameItems);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         binding.timeframeSpinner.setAdapter(adapter);
+        binding.timeframeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                TimePeriod selectedTimePeriod = getTimePeriodForPosition(position);
+                viewModel.setTimePeriod(selectedTimePeriod);
+                viewModel.setCurrentPage(1);
+                viewModel.fetchRepositoryList(new ProjectRequestModel(viewModel.parseQueryDate(viewModel.getTimePeriod()), String.valueOf(viewModel.getCurrentPage())));
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
     }
+
+    private TimePeriod getTimePeriodForPosition(int position) {
+        switch (position) {
+            case 0:
+                return TimePeriod.LAST_DAY;
+            case 1:
+                return TimePeriod.LAST_WEEK;
+            case 2:
+                return TimePeriod.LAST_MONTH;
+            default:
+                return TimePeriod.LAST_DAY;
+        }
+    }
+
 
     @Override
     protected int getLayoutId() {
@@ -83,6 +130,5 @@ public class RepositoryListFragment extends BaseFragment<FragmentRepositoryListB
 
     @Override
     protected void setObservers() {
-
     }
 }
