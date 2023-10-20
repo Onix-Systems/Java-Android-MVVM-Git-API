@@ -34,7 +34,6 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupViews();
-        setObservers();
     }
 
     protected void navigate(Command command) {

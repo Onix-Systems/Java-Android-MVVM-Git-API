@@ -17,14 +17,16 @@ import com.android.gitapi.App;
 import com.android.gitapi.R;
 import com.android.gitapi.data.model.TimePeriod;
 import com.android.gitapi.databinding.FragmentRepositoryListBinding;
+import com.android.gitapi.domain.model.ProjectItemModel;
 import com.android.gitapi.domain.model.ProjectRequestModel;
 import com.android.gitapi.domain.repository.ProjectsListRepository;
 import com.android.gitapi.presentation.adapter.RepositoryAdapter;
 import com.android.gitapi.presentation.arch.BaseFragment;
+import com.android.gitapi.presentation.listeners.FavouriteClickListener;
 
 import javax.inject.Inject;
 
-public class RepositoryListFragment extends BaseFragment<FragmentRepositoryListBinding> {
+public class RepositoryListFragment extends BaseFragment<FragmentRepositoryListBinding> implements FavouriteClickListener {
 
     @Inject
     ViewModelFactory viewModelFactory;
@@ -32,7 +34,7 @@ public class RepositoryListFragment extends BaseFragment<FragmentRepositoryListB
     @Inject
     ProjectsListRepository projectsListRepository;
 
-    private final RepositoryAdapter adapter = new RepositoryAdapter();
+    private RepositoryAdapter adapter = new RepositoryAdapter(this);
 
     private RepositoryListViewModel viewModel;
 
@@ -40,11 +42,9 @@ public class RepositoryListFragment extends BaseFragment<FragmentRepositoryListB
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this, viewModelFactory).get(RepositoryListViewModel.class);
+        setObservers();
+        viewModel.fetchRepositoryList(new ProjectRequestModel(viewModel.parseQueryDate(TimePeriod.LAST_DAY), String.valueOf(viewModel.getCurrentPage())));
         binding.setViewModel(viewModel);
-        viewModel.getRepositoryListLiveData().observe(getViewLifecycleOwner(), items -> {
-            adapter.submitList(items);
-            adapter.notifyDataSetChanged();
-        });
     }
 
 
@@ -130,5 +130,15 @@ public class RepositoryListFragment extends BaseFragment<FragmentRepositoryListB
 
     @Override
     protected void setObservers() {
+        viewModel.getRepositoryListLiveData().observe(getViewLifecycleOwner(), items -> {
+            items.get(0).isFavourite();
+            adapter.submitList(items);
+            adapter.notifyDataSetChanged();
+        });
+    }
+
+    @Override
+    public void onFavouriteClick(ProjectItemModel projectItemModel) {
+        viewModel.onFavouriteClick(projectItemModel);
     }
 }

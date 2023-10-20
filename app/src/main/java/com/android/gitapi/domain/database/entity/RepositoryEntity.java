@@ -1,45 +1,44 @@
-package com.android.gitapi.domain.model;
+package com.android.gitapi.domain.database.entity;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-public class ProjectItemModel {
-    private long id;
+@Entity(tableName = "repository_table")
+public class RepositoryEntity {
+    @PrimaryKey(autoGenerate = true)
+    private int id;
     private String ownerUser;
     private String description;
     private String stars;
     private String avatarUrl;
     private String repositoryName;
-    private String createdAt;
     private String language;
     private long forks;
+    private String createdAt;
     private String htmlUrl;
-    private boolean isFavourite = false;
 
-    public ProjectItemModel(long id, String ownerUser, String description, String stars, String avatarUrl, String repositoryName, String createdAt, String language, long forks, String htmlUrl) {
+
+    public RepositoryEntity(int id, String ownerUser, String description, String stars, String avatarUrl, String repositoryName, String language, long forks, String createdAt, String htmlUrl) {
         this.id = id;
         this.ownerUser = ownerUser;
         this.description = description;
         this.stars = stars;
         this.avatarUrl = avatarUrl;
         this.repositoryName = repositoryName;
-        this.createdAt = createdAt;
         this.language = language;
         this.forks = forks;
+        this.createdAt = createdAt;
         this.htmlUrl = htmlUrl;
     }
 
-    public boolean isFavourite() {
-        return isFavourite;
+    public RepositoryEntity() {
     }
 
-    public void setFavourite(boolean favourite) {
-        isFavourite = favourite;
-    }
-
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -83,14 +82,6 @@ public class ProjectItemModel {
         this.repositoryName = repositoryName;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public String getLanguage() {
         return language;
     }
@@ -107,6 +98,14 @@ public class ProjectItemModel {
         this.forks = forks;
     }
 
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public String getHtmlUrl() {
         return htmlUrl;
     }
@@ -117,19 +116,17 @@ public class ProjectItemModel {
 
     @Override
     public String toString() {
-        return "ProjectItemModel{" +
+        return "RepositoryEntity{" +
                 "id=" + id +
                 ", ownerUser='" + ownerUser + '\'' +
                 ", description='" + description + '\'' +
                 ", stars='" + stars + '\'' +
                 ", avatarUrl='" + avatarUrl + '\'' +
                 ", repositoryName='" + repositoryName + '\'' +
-                ", createdAt='" + createdAt + '\'' +
                 ", language='" + language + '\'' +
                 ", forks=" + forks +
+                ", createdAt='" + createdAt + '\'' +
                 ", htmlUrl='" + htmlUrl + '\'' +
-                ", isFavourite=" + isFavourite +
                 '}';
     }
 }
-
