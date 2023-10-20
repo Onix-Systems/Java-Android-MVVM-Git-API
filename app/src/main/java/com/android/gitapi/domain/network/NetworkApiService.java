@@ -1,6 +1,6 @@
 package com.android.gitapi.domain.network;
 
-import com.android.gitapi.domain.entity.RepositoryListResponse;
+import com.android.gitapi.domain.network.entity.RepositoryListResponse;
 
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.GET;

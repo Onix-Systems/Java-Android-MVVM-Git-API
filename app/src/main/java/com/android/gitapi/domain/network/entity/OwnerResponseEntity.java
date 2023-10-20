@@ -1,4 +1,4 @@
-package com.android.gitapi.domain.entity;
+package com.android.gitapi.domain.network.entity;
 
 import com.google.gson.annotations.SerializedName;
 

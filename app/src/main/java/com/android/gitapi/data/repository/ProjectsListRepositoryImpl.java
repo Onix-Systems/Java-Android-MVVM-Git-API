@@ -1,6 +1,6 @@
 package com.android.gitapi.data.repository;
 
-import com.android.gitapi.domain.entity.RepositoryListResponse;
+import com.android.gitapi.domain.network.entity.RepositoryListResponse;
 import com.android.gitapi.domain.model.ProjectRequestModel;
 import com.android.gitapi.domain.network.NetworkApiService;
 import com.android.gitapi.domain.repository.ProjectsListRepository;
