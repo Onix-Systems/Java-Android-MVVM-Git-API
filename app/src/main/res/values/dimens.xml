@@ -9,4 +9,5 @@
     <dimen name="margin_5">5dp</dimen>
     <dimen name="big_text_size_18">18sp</dimen>
     <dimen name="padding_16">16dp</dimen>
+    <dimen name="test_size_16">16sp</dimen>
 </resources>
