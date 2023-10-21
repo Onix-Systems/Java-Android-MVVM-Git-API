@@ -27,6 +27,9 @@ public class ProjectItemModel {
         this.htmlUrl = htmlUrl;
     }
 
+    public ProjectItemModel() {
+    }
+
     public boolean isFavourite() {
         return isFavourite;
     }

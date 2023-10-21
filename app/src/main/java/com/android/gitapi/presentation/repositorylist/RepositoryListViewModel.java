@@ -33,9 +33,15 @@ public class RepositoryListViewModel extends ViewModel {
     List<RepositoryEntity> repositoryEntities;
 
     private ObservableBoolean observableBoolean = new ObservableBoolean(false);
+    private final ObservableBoolean observableBooleanEmptyList = new ObservableBoolean(true);
+
 
     public ObservableBoolean getObservableBoolean() {
         return observableBoolean;
+    }
+
+    public ObservableBoolean getObservableBooleanEmptyList() {
+        return observableBooleanEmptyList;
     }
 
     public void setObservableBoolean(ObservableBoolean observableBoolean) {
@@ -119,6 +125,7 @@ public class RepositoryListViewModel extends ViewModel {
                             }
 
                             existingList.addAll(repositoryList.getItems());
+                            observableBooleanEmptyList.set(existingList.size() == 0);
                             repositoryListLiveData.setValue(existingList);
                             isLoading = false;
                             observableBoolean.set(false);
@@ -127,6 +134,9 @@ public class RepositoryListViewModel extends ViewModel {
                             Log.e("apiError", Objects.requireNonNull(error.getMessage()));
                             isLoading = false;
                             observableBoolean.set(false);
+                            if (repositoryListLiveData.getValue() == null || repositoryListLiveData.getValue().size() == 0) {
+                                observableBooleanEmptyList.set(true);
+                            }
                         }
                 );
     }

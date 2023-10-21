@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.android.gitapi.presentation.repositorylist.RepositoryListViewModel" />
+            type="com.android.gitapi.presentation.favourites.FavouritesViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,29 +17,12 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/light_silver"
             android:orientation="vertical"
             tools:context=".TrendingReposActivity">
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_10"
-                android:layout_marginTop="@dimen/margin_10"
-                android:layout_marginEnd="@dimen/margin_10">
-
-                <Spinner
-                    android:id="@+id/timeframeSpinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_10"
-                    android:layout_marginTop="@dimen/padding_16"
-                    android:layout_marginBottom="@dimen/spinner_margin_bottom"
-                    android:backgroundTint="@color/black"
-                    android:spinnerMode="dropdown" />
-            </com.google.android.material.card.MaterialCardView>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/repoRecyclerView"
@@ -57,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:visibility="@{viewModel.observableBoolean? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="@{viewModel.observableBooleanProgress? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

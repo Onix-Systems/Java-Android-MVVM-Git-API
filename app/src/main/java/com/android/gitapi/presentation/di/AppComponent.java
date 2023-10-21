@@ -4,6 +4,7 @@ import com.android.gitapi.domain.di.ApiModule;
 import com.android.gitapi.domain.di.DataBaseModule;
 import com.android.gitapi.domain.di.UseCaseModule;
 import com.android.gitapi.presentation.details.DetailsFragment;
+import com.android.gitapi.presentation.favourites.FavouritesFragment;
 import com.android.gitapi.presentation.repositorylist.RepositoryListFragment;
 
 import javax.inject.Singleton;
@@ -18,5 +19,6 @@ public interface AppComponent {
 
     void inject(DetailsFragment fragment);
 
+    void inject(FavouritesFragment fragment);
 
 }

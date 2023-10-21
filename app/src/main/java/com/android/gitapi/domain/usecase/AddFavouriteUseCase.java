@@ -30,6 +30,7 @@ public class AddFavouriteUseCase extends BaseUseCase<Completable, ProjectItemMod
             repositoryEntity.setForks(itemModel.getForks());
             repositoryEntity.setHtmlUrl(itemModel.getHtmlUrl());
             repositoryEntity.setLanguage(itemModel.getLanguage());
+            repositoryEntity.setStars(itemModel.getStars());
 
             dataBaseRepository.insertRepository(repositoryEntity);
         }).subscribeOn(Schedulers.io());
