@@ -2,6 +2,8 @@ package com.android.gitapi.presentation.adapter;
 
 
 
+import android.util.Log;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.gitapi.R;

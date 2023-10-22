@@ -2,7 +2,7 @@ package com.android.gitapi.domain.model;
 
 
 public class ProjectItemModel {
-    private long id;
+    private int id;
     private String ownerUser;
     private String description;
     private String stars;
@@ -14,7 +14,7 @@ public class ProjectItemModel {
     private String htmlUrl;
     private boolean isFavourite = false;
 
-    public ProjectItemModel(long id, String ownerUser, String description, String stars, String avatarUrl, String repositoryName, String createdAt, String language, long forks, String htmlUrl) {
+    public ProjectItemModel(int id, String ownerUser, String description, String stars, String avatarUrl, String repositoryName, String createdAt, String language, long forks, String htmlUrl) {
         this.id = id;
         this.ownerUser = ownerUser;
         this.description = description;
@@ -27,20 +27,15 @@ public class ProjectItemModel {
         this.htmlUrl = htmlUrl;
     }
 
+    public ProjectItemModel() {
+    }
+
     public boolean isFavourite() {
         return isFavourite;
     }
 
     public void setFavourite(boolean favourite) {
         isFavourite = favourite;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getOwnerUser() {
@@ -113,6 +108,14 @@ public class ProjectItemModel {
 
     public void setHtmlUrl(String htmlUrl) {
         this.htmlUrl = htmlUrl;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 
     @Override

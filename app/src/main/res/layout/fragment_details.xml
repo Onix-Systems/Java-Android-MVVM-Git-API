@@ -54,6 +54,7 @@
             android:id="@+id/ownerAvatarImageView"
             android:layout_width="@dimen/details_image_size"
             android:layout_height="@dimen/details_image_size"
+            android:layout_marginTop="@dimen/margin_35"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

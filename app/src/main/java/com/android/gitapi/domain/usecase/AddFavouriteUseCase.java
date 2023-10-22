@@ -22,6 +22,7 @@ public class AddFavouriteUseCase extends BaseUseCase<Completable, ProjectItemMod
     protected Completable buildUseCaseSingle(ProjectItemModel itemModel) {
         return Completable.fromAction(() -> {
             RepositoryEntity repositoryEntity = new RepositoryEntity();
+            repositoryEntity.setId(itemModel.getId());
             repositoryEntity.setOwnerUser(itemModel.getOwnerUser());
             repositoryEntity.setDescription(itemModel.getDescription());
             repositoryEntity.setRepositoryName(itemModel.getRepositoryName());
@@ -30,6 +31,7 @@ public class AddFavouriteUseCase extends BaseUseCase<Completable, ProjectItemMod
             repositoryEntity.setForks(itemModel.getForks());
             repositoryEntity.setHtmlUrl(itemModel.getHtmlUrl());
             repositoryEntity.setLanguage(itemModel.getLanguage());
+            repositoryEntity.setStars(itemModel.getStars());
 
             dataBaseRepository.insertRepository(repositoryEntity);
         }).subscribeOn(Schedulers.io());
