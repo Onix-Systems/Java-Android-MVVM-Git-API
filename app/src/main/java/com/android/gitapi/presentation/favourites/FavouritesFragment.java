@@ -84,7 +84,7 @@ public class FavouritesFragment extends BaseFragment<FragmentFavouritesBinding> 
 
     @Override
     public void onFavouriteClick(ProjectItemModel projectItemModel) {
-
+        viewModel.onFavouriteClick(projectItemModel);
     }
 
     @Override

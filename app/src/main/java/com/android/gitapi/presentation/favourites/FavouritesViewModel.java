@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.android.gitapi.domain.database.entity.RepositoryEntity;
 import com.android.gitapi.domain.model.ProjectItemModel;
+import com.android.gitapi.domain.repository.DataBaseRepository;
 import com.android.gitapi.domain.usecase.GetFavouritesUseCase;
 
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ import javax.inject.Inject;
 
 public class FavouritesViewModel extends ViewModel {
     GetFavouritesUseCase favouritesUseCase;
+    DataBaseRepository dataBaseRepository;
+
 
     private final MutableLiveData<List<ProjectItemModel>> items = new MutableLiveData<>();
     private final ObservableBoolean observableBooleanProgress = new ObservableBoolean(false);
@@ -33,8 +36,9 @@ public class FavouritesViewModel extends ViewModel {
     }
 
     @Inject
-    public FavouritesViewModel(GetFavouritesUseCase favouritesUseCase) {
+    public FavouritesViewModel(GetFavouritesUseCase favouritesUseCase, DataBaseRepository dataBaseRepository) {
         this.favouritesUseCase = favouritesUseCase;
+        this.dataBaseRepository = dataBaseRepository;
     }
 
     void fetchFavourites() {
@@ -51,12 +55,29 @@ public class FavouritesViewModel extends ViewModel {
     }
 
     private void setObservableBooleanEmptyList(int listSize) {
-        if (listSize > 0) {
-            observableBooleanEmptyList.set(false);
-        } else {
-            observableBooleanEmptyList.set(true);
+        observableBooleanEmptyList.set(listSize <= 0);
+    }
+
+    void onFavouriteClick(ProjectItemModel projectItemModel) {
+        String repositoryNameToMatch = projectItemModel.getRepositoryName();
+
+        List<RepositoryEntity> favorites = favouritesUseCase.execute(null);
+
+        RepositoryEntity itemToRemove = null;
+        for (RepositoryEntity item : favorites) {
+            if (repositoryNameToMatch.equals(item.getRepositoryName())) {
+                itemToRemove = item;
+                break;
+            }
+        }
+
+        if (itemToRemove != null) {
+            favorites.remove(itemToRemove);
+            dataBaseRepository.deleteRepository(repositoryNameToMatch);
+            fetchFavourites();
         }
     }
+
 
     private ProjectItemModel parseFavourites(RepositoryEntity itemModel) {
         ProjectItemModel projectItemModel = new ProjectItemModel();

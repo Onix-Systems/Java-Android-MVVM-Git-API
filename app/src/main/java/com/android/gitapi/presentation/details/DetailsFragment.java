@@ -48,8 +48,8 @@ public class DetailsFragment extends BaseFragment<FragmentDetailsBinding> {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
         TabLayoutRepository.getInstance().setIsShowTabLayoutEvent(false);
     }
 

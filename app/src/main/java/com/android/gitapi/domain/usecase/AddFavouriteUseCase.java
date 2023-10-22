@@ -22,6 +22,7 @@ public class AddFavouriteUseCase extends BaseUseCase<Completable, ProjectItemMod
     protected Completable buildUseCaseSingle(ProjectItemModel itemModel) {
         return Completable.fromAction(() -> {
             RepositoryEntity repositoryEntity = new RepositoryEntity();
+            repositoryEntity.setId(itemModel.getId());
             repositoryEntity.setOwnerUser(itemModel.getOwnerUser());
             repositoryEntity.setDescription(itemModel.getDescription());
             repositoryEntity.setRepositoryName(itemModel.getRepositoryName());

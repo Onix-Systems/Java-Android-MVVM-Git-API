@@ -1,6 +1,7 @@
 package com.android.gitapi.presentation.di;
 
 import com.android.gitapi.domain.di.UseCaseModule;
+import com.android.gitapi.domain.repository.DataBaseRepository;
 import com.android.gitapi.domain.usecase.AddFavouriteUseCase;
 import com.android.gitapi.domain.usecase.DeleteFavouriteUseCase;
 import com.android.gitapi.domain.usecase.GetFavouritesUseCase;
@@ -44,8 +45,8 @@ public class ViewModelModule {
     }
 
     @Provides
-    public FavouritesViewModel provideFavouritesViewModel(GetFavouritesUseCase getFavouritesUseCase) {
-        return new FavouritesViewModel(getFavouritesUseCase);
+    public FavouritesViewModel provideFavouritesViewModel(GetFavouritesUseCase getFavouritesUseCase, DataBaseRepository dataBaseRepository) {
+        return new FavouritesViewModel(getFavouritesUseCase, dataBaseRepository);
     }
 
 }

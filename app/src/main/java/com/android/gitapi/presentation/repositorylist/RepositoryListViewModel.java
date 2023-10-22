@@ -172,7 +172,6 @@ public class RepositoryListViewModel extends ViewModel {
                     .subscribe(
                             () -> {
                                 repositoryEntities = getFavouritesUseCase.execute(null);
-                                Log.e("showInfo", repositoryEntities.toString());
                             },
                             error -> {
                                 Log.e("addError", Objects.requireNonNull(error.getMessage()));
